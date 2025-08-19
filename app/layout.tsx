@@ -21,9 +21,9 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.app",
+  title: "Matsya | Your Data Flow Manager",
+  description: "Created by Supernova",
+  generator: "Matsya | Your Data Flow Manager",
 }
 
 export default function RootLayout({
