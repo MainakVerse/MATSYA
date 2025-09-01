@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ChevronRight, ChevronDown, CheckCircle } from "lucide-react"
+import { CheckCircle } from "lucide-react"
 
 interface BallData {
   id: number
@@ -15,14 +15,15 @@ interface SciFiBallGridProps {
 }
 
 const ballsData: BallData[] = [
-  { id: 1, text: "Neural Network Initialized", description: "Advanced artificial neural networks have been successfully initialized. Deep learning algorithms are now processing complex data patterns with quantum-enhanced computational power.", position: { row: 0, col: 0 } },
-  { id: 2, text: "Quantum Processing Active", description: "Quantum processors are operating at peak efficiency. Superposition states enable parallel computation across multiple dimensional matrices for exponential processing speed.", position: { row: 0, col: 1 } },
-  { id: 3, text: "Data Stream Established", description: "High-bandwidth data streams have been established across all network nodes. Real-time information flow is maintained through encrypted quantum channels.", position: { row: 0, col: 2 } },
-  { id: 4, text: "AI Core Online", description: "Central artificial intelligence core is fully operational. Advanced decision-making algorithms are analyzing environmental parameters and optimizing system performance.", position: { row: 0, col: 3 } },
-  { id: 5, text: "Security Protocols Engaged", description: "Multi-layered security protocols have been activated. Quantum encryption shields protect all data transmissions from unauthorized access and cyber threats.", position: { row: 1, col: 0 } },
-  { id: 6, text: "System Optimization Complete", description: "All system components have been optimized for maximum efficiency. Resource allocation algorithms ensure optimal performance across all operational parameters.", position: { row: 1, col: 1 } },
-  { id: 7, text: "Mission Parameters Loaded", description: "Critical mission parameters have been successfully loaded into the system. All objectives, constraints, and success criteria are now integrated into the operational framework.", position: { row: 1, col: 2 } },
-  { id: 8, text: "All Systems Ready", description: "All previous steps completed successfully.", position: { row: 1, col: 3 } },
+{ id: 1, text: "Database Generation", description: "Vast relational frameworks have been constructed seamlessly. Structured repositories are capturing, indexing, and preserving raw knowledge at planetary scale.", position: { row: 0, col: 0 } },
+{ id: 2, text: "Data Mining", description: "Layered datasets are being probed with precision. Hidden associations and valuable signals are extracted from massive streams using advanced quantum models.", position: { row: 0, col: 1 } },
+{ id: 3, text: "Data Wrangling", description: "Complex inputs are being transformed into usable form. Cleaning, merging, and reshaping pipelines ensure harmonized structures for downstream intelligence.", position: { row: 0, col: 2 } },
+{ id: 4, text: "Data Modelling", description: "Predictive structures are being simulated in real-time. Algorithms translate intricate variables into representations optimized for adaptive decision systems.", position: { row: 0, col: 3 } },
+{ id: 5, text: "Machine Learning", description: "Iterative models are actively training on curated samples. Feedback-driven refinement continuously strengthens accuracy across dynamic environments.", position: { row: 1, col: 0 } },
+{ id: 6, text: "Business Intelligence", description: "Processed data streams evolve into actionable insight. Analytical layers reveal patterns that guide strategies and enable enterprise-level optimization.", position: { row: 1, col: 1 } },
+{ id: 7, text: "Orchestration", description: "Integrated components operate within coordinated cycles. Automated flows manage dependencies, ensuring synchronized execution across all operational layers.", position: { row: 1, col: 2 } },
+
+  { id: 8, text: "All Set!", description: "Ready... Steady... Go!!", position: { row: 1, col: 3 } },
 ]
 
 export default function SciFiBallGrid({ onComplete }: SciFiBallGridProps) {
@@ -35,14 +36,7 @@ export default function SciFiBallGrid({ onComplete }: SciFiBallGridProps) {
   const [isZoomed, setIsZoomed] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Auto-scroll on mobile
-  useEffect(() => {
-    if (containerRef.current && window.innerWidth < 768) {
-      containerRef.current.scrollTo({ top: containerRef.current.scrollHeight, behavior: "smooth" })
-    }
-  }, [activeBall, describingBall])
-
-  // Appearing phase logic
+  // Appearing phase
   useEffect(() => {
     if (phase === "appearing" && activeBall < ballsData.length) {
       const ballTimer = setTimeout(() => setShowTextBox(true), 800)
@@ -61,7 +55,7 @@ export default function SciFiBallGrid({ onComplete }: SciFiBallGridProps) {
     }
   }, [activeBall, phase])
 
-  // Describing phase with typewriter effect
+  // Describing phase with typewriter
   useEffect(() => {
     if (phase === "describing" && describingBall < ballsData.length) {
       setIsZoomed(true)
@@ -86,8 +80,8 @@ export default function SciFiBallGrid({ onComplete }: SciFiBallGridProps) {
               } else {
                 setDescribingBall(describingBall + 1)
               }
-            }, 500)
-          }, 2000)
+            }, 600)
+          }, 2200)
         }
       }, 30)
       return () => clearInterval(typeInterval)
@@ -96,92 +90,78 @@ export default function SciFiBallGrid({ onComplete }: SciFiBallGridProps) {
 
   const getBallContent = (index: number) => {
     if (index === ballsData.length - 1 && phase === "describing" && describingBall === ballsData.length - 1) {
-      return <CheckCircle className="w-10 h-10 text-green-400" />
+      return <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-green-400" />
     }
-    return <span className="text-white text-2xl font-bold">{ballsData[index]?.id || index + 1}</span>
+    return <span className="text-white text-lg sm:text-2xl font-bold">{ballsData[index]?.id || index + 1}</span>
   }
 
   return (
-    <div ref={containerRef} className="fixed inset-0 z-50 bg-slate-950 overflow-auto">
-      {phase === "describing" && <div className="fixed inset-0 bg-black/70 z-10" />}
+    <div ref={containerRef} className="fixed inset-0 z-50 bg-slate-950 overflow-hidden">
+      {/* Blur overlay when describing */}
+      {phase === "describing" && (
+        <div className="absolute inset-0 backdrop-blur-md bg-black/70 z-10" />
+      )}
 
       {/* Desktop Grid */}
-      <div className="hidden md:block min-h-screen p-8">
-        <div className="grid grid-cols-4 gap-20 max-w-6xl mx-auto mt-16">
+      <div className="hidden md:block min-h-screen p-6">
+        <div
+          className={`grid grid-cols-4 gap-12 max-w-6xl mx-auto mt-12 transition-all duration-500 
+          ${phase === "describing" ? "blur-sm pointer-events-none" : ""}`}
+        >
           {ballsData.map((ball, index) => (
-            <div key={ball.id} className={`relative flex flex-col items-center transition-all duration-500
-              ${phase === "describing" && index === describingBall ? "z-20" : "z-0"}
-              ${phase === "describing" && index !== describingBall ? "opacity-30" : "opacity-100"}`}>
+            <div key={ball.id} className="relative flex flex-col items-center">
               <div className={`relative transition-all duration-500
-                ${phase === "appearing" && index <= activeBall ? "w-32 h-32" : "w-28 h-28"}
-                ${phase === "describing" && index === describingBall && isZoomed ? "w-40 h-40" : "w-32 h-32"}
+                ${phase === "appearing" && index <= activeBall ? "w-28 h-28" : "w-24 h-24"}
                 rounded-full flex items-center justify-center
                 ${(phase === "appearing" && index <= activeBall) || phase === "describing"
-                  ? "bg-blue-500 shadow-lg shadow-blue-500/50 scale-100"
-                  : "bg-gray-600 scale-75"}
+                  ? "bg-blue-500 shadow-lg shadow-blue-500/50"
+                  : "bg-gray-600"}
               `}>
                 {getBallContent(index)}
-                {(phase === "appearing" && index === activeBall) && <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-75" />}
               </div>
-
-              {/* Desktop Description Box */}
-              {phase === "describing" && index === describingBall && showDescription && (
-                <div className="absolute top-44 left-1/2 transform -translate-x-1/2 w-80 z-30">
-                  <div className="bg-slate-800 border border-blue-400 rounded-lg p-6 shadow-lg shadow-blue-500/20">
-                    <div className="text-blue-300 text-sm font-mono leading-relaxed">{typewriterText}</div>
-                  </div>
-                </div>
-              )}
-
-              {/* Appearing text box */}
-              {phase === "appearing" && index === activeBall && showTextBox && (
-                <div className="absolute top-36 left-1/2 transform -translate-x-1/2 w-64">
-                  <div className="bg-slate-800 border border-blue-400 rounded-lg p-4 shadow-lg shadow-blue-500/20">
-                    <div className="text-blue-300 text-sm font-mono text-center">{ball.text}</div>
-                  </div>
-                </div>
-              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Mobile Vertical */}
-      <div className="md:hidden min-h-screen p-4 flex flex-col items-center space-y-12 mt-10">
+      {/* Mobile Vertical Layout */}
+      <div
+        className={`md:hidden min-h-screen p-4 flex flex-col items-center space-y-10 mt-8 transition-all duration-500 
+        ${phase === "describing" ? "blur-sm pointer-events-none" : ""}`}
+      >
         {ballsData.map((ball, index) => (
-          <div key={ball.id} className="relative flex flex-col items-center w-full transition-all duration-500">
+          <div key={ball.id} className="relative flex flex-col items-center w-full">
             <div className={`relative transition-all duration-500
-              ${phase === "appearing" && index <= activeBall ? "w-28 h-28" : "w-24 h-24"}
-              ${phase === "describing" && index === describingBall && isZoomed ? "w-32 h-32" : ""}
+              ${phase === "appearing" && index <= activeBall ? "w-20 h-20" : "w-16 h-16"}
               rounded-full flex items-center justify-center
               ${(phase === "appearing" && index <= activeBall) || phase === "describing"
-                ? "bg-blue-500 shadow-lg shadow-blue-500/50 scale-100"
-                : "bg-gray-600 scale-75"}
+                ? "bg-blue-500 shadow-lg shadow-blue-500/50"
+                : "bg-gray-600"}
             `}>
               {getBallContent(index)}
-              {(phase === "appearing" && index === activeBall) && <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-75" />}
             </div>
-
-            {/* Mobile Description Box */}
-            {phase === "describing" && index === describingBall && showDescription && (
-              <div className="mt-6 w-full max-w-sm px-4">
-                <div className="bg-slate-800 border border-blue-400 rounded-lg p-6 shadow-lg shadow-blue-500/20">
-                  <div className="text-blue-300 text-sm font-mono leading-relaxed">{typewriterText}</div>
-                </div>
-              </div>
-            )}
-
-            {/* Appearing text box */}
-            {phase === "appearing" && index === activeBall && showTextBox && (
-              <div className="mt-6 w-full max-w-xs">
-                <div className="bg-slate-800 border border-blue-400 rounded-lg p-4 shadow-lg shadow-blue-500/20">
-                  <div className="text-blue-300 text-sm font-mono text-center">{ball.text}</div>
-                </div>
-              </div>
-            )}
           </div>
         ))}
       </div>
+
+      {/* Focused Ball + Description Overlay */}
+      {phase === "describing" && showDescription && (
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4">
+          <div
+            className={`transition-all duration-500 w-24 h-24 sm:w-32 sm:h-32 rounded-full 
+            flex items-center justify-center bg-blue-500 shadow-lg shadow-blue-500/50`}
+          >
+            {getBallContent(describingBall)}
+          </div>
+          <div className="mt-6 w-full max-w-lg">
+            <div className="bg-slate-800 border border-blue-400 rounded-lg p-6 shadow-lg shadow-blue-500/20">
+              <div className="text-blue-300 text-sm sm:text-base font-mono leading-relaxed">
+                {typewriterText}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

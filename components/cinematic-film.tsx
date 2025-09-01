@@ -1,11 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation" // ✅ for navigation
 import GrowingBall from "./glowing-ball"
 import SciFiBallGrid from "./sci-fi-ball-grid"
 import FinalExploreSection from "./final-explore-section"
 
 export default function CinematicFilm() {
+  const router = useRouter()
   const [currentScene, setCurrentScene] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const [curtainsOpen, setCurtainsOpen] = useState(false)
@@ -16,10 +18,11 @@ export default function CinematicFilm() {
   const [showGrowingBall, setShowGrowingBall] = useState(false)
   const [showSciFiGrid, setShowSciFiGrid] = useState(false)
   const [showFinalExplore, setShowFinalExplore] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   // Fetch JSON with scenes
   useEffect(() => {
-    fetch("/cinematic_scenes.json") // Place your file in /public folder
+    fetch("/cinematic_scenes.json")
       .then((res) => res.json())
       .then((data) => {
         setScenes(data.scenes || [])
@@ -64,6 +67,10 @@ export default function CinematicFilm() {
       }, 2500)
     }, current.duration)
 
+    const totalPhases = scenes.length + 2 // scenes + growingBall + sciFiGrid
+    const progressValue = ((currentScene + 1) / totalPhases) * 100
+    setProgress(progressValue)
+
     return () => clearTimeout(timer)
   }, [currentScene, isVisible, scenes])
 
@@ -71,26 +78,27 @@ export default function CinematicFilm() {
     if (allScenesComplete) {
       const timer = setTimeout(() => {
         setShowGrowingBall(true)
+        setProgress(((scenes.length + 1) / (scenes.length + 2)) * 100)
       }, 1000)
       return () => clearTimeout(timer)
     }
-  }, [allScenesComplete])
+  }, [allScenesComplete, scenes.length])
 
   const handleGrowingBallComplete = () => {
     setShowGrowingBall(false)
     setShowSciFiGrid(true)
+    setProgress(((scenes.length + 2) / (scenes.length + 2)) * 100)
   }
 
   const handleSciFiGridComplete = () => {
     setShowSciFiGrid(false)
     setShowFinalExplore(true)
+    setProgress(100)
+    setTimeout(() => setProgress(0), 1000) // hide after short delay
   }
-
-  
 
   const handleFinalExploreComplete = () => {
     setShowFinalExplore(false)
-    // Animation sequence complete
   }
 
   return (
@@ -136,8 +144,27 @@ export default function CinematicFilm() {
 
       {showGrowingBall && <GrowingBall onComplete={handleGrowingBallComplete} />}
       {showSciFiGrid && <SciFiBallGrid onComplete={handleSciFiGridComplete} />}
-      
       {showFinalExplore && <FinalExploreSection onComplete={handleFinalExploreComplete} />}
+
+      {/* Progress Bar */}
+      {progress > 0 && (
+        <div className="absolute bottom-0 left-0 w-full h-2 bg-gray-800 overflow-hidden">
+          <div
+            className="h-full bg-sky-500 transition-all duration-500 ease-linear"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      )}
+
+      {/* Exit Button */}
+      {!showFinalExplore && (
+        <button
+          onClick={() => router.push("/")}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-sky-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-sky-500 transition-all"
+        >
+          Click to exit
+        </button>
+      )}
     </div>
   )
 }
