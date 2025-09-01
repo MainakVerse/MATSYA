@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import GrowingBall from "./glowing-ball"
 import SciFiBallGrid from "./sci-fi-ball-grid"
-import FishShipGif from "./fish-ship-gif"
 import FinalExploreSection from "./final-explore-section"
 
 export default function CinematicFilm() {
@@ -16,7 +15,6 @@ export default function CinematicFilm() {
   const [allScenesComplete, setAllScenesComplete] = useState(false)
   const [showGrowingBall, setShowGrowingBall] = useState(false)
   const [showSciFiGrid, setShowSciFiGrid] = useState(false)
-  const [showFishShipGif, setShowFishShipGif] = useState(false)
   const [showFinalExplore, setShowFinalExplore] = useState(false)
 
   // Fetch JSON with scenes
@@ -85,13 +83,10 @@ export default function CinematicFilm() {
 
   const handleSciFiGridComplete = () => {
     setShowSciFiGrid(false)
-    setShowFishShipGif(true)
-  }
-
-  const handleFishShipGifComplete = () => {
-    setShowFishShipGif(false)
     setShowFinalExplore(true)
   }
+
+  
 
   const handleFinalExploreComplete = () => {
     setShowFinalExplore(false)
@@ -141,7 +136,7 @@ export default function CinematicFilm() {
 
       {showGrowingBall && <GrowingBall onComplete={handleGrowingBallComplete} />}
       {showSciFiGrid && <SciFiBallGrid onComplete={handleSciFiGridComplete} />}
-      {showFishShipGif && <FishShipGif onComplete={handleFishShipGifComplete} />}
+      
       {showFinalExplore && <FinalExploreSection onComplete={handleFinalExploreComplete} />}
     </div>
   )

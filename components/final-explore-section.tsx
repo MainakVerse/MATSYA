@@ -7,31 +7,27 @@ interface FinalExploreSectionProps {
   onComplete?: () => void
 }
 
-export default function FinalExploreSection({ onComplete }: FinalExploreSectionProps) {
+export default function FinalExploreSection({ }: FinalExploreSectionProps) {
   const [isVisible, setIsVisible] = useState(false)
-  const [showCurtains, setShowCurtains] = useState(false)
-  const [curtainsClosing, setCurtainsClosing] = useState(false)
+
   const router = useRouter()
 
   useEffect(() => {
-    // Fade in the section
-    const timer = setTimeout(() => {
-      setIsVisible(true)
-    }, 500)
-
+    const timer = setTimeout(() => setIsVisible(true), 500)
     return () => clearTimeout(timer)
   }, [])
 
   const handleExploreClick = () => {
-    // Start curtain closing animation
-    setShowCurtains(true)
-    setCurtainsClosing(true)
+    
 
-    // Navigate to home after curtains close
+    // Navigate after animation
     setTimeout(() => {
       router.push("/")
-    }, 2000) // Wait for curtain animation to complete
+    }, 2200)
   }
+
+  const columns = 8 // number of columns on each side
+  const columnWidth = `${100 / (columns * 2)}%` // each column width
 
   return (
     <div className="fixed inset-0 bg-slate-950 flex items-center justify-center overflow-hidden">
@@ -49,8 +45,8 @@ export default function FinalExploreSection({ onComplete }: FinalExploreSectionP
         <button
           onClick={handleExploreClick}
           className="group relative px-12 py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white text-xl font-bold rounded-full 
-                   hover:from-blue-500 hover:to-blue-700 transform hover:scale-105 transition-all duration-300
-                   shadow-lg hover:shadow-2xl border-2 border-blue-400/30"
+                     hover:from-blue-500 hover:to-blue-700 transform hover:scale-105 transition-all duration-300
+                     shadow-lg hover:shadow-2xl border-2 border-blue-400/30"
         >
           <span className="relative z-10">Explore</span>
           <div
@@ -77,32 +73,7 @@ export default function FinalExploreSection({ onComplete }: FinalExploreSectionP
         ))}
       </div>
 
-      {/* Closing curtains */}
-      {showCurtains && (
-        <>
-          {/* Left curtain */}
-          <div
-            className={`fixed top-0 left-0 h-full bg-gradient-to-r from-blue-400 via-blue-300 to-blue-200 z-50 transition-all duration-2000 ease-in-out ${
-              curtainsClosing ? "w-1/2" : "w-0"
-            }`}
-            style={{
-              background: "linear-gradient(90deg, #60a5fa 0%, #93c5fd 50%, #dbeafe 100%)",
-              boxShadow: "inset -20px 0 40px rgba(0,0,0,0.3)",
-            }}
-          />
-
-          {/* Right curtain */}
-          <div
-            className={`fixed top-0 right-0 h-full bg-gradient-to-l from-blue-400 via-blue-300 to-blue-200 z-50 transition-all duration-2000 ease-in-out ${
-              curtainsClosing ? "w-1/2" : "w-0"
-            }`}
-            style={{
-              background: "linear-gradient(270deg, #60a5fa 0%, #93c5fd 50%, #dbeafe 100%)",
-              boxShadow: "inset 20px 0 40px rgba(0,0,0,0.3)",
-            }}
-          />
-        </>
-      )}
+     
     </div>
   )
 }
