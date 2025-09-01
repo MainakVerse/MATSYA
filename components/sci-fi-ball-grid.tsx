@@ -15,14 +15,13 @@ interface SciFiBallGridProps {
 }
 
 const ballsData: BallData[] = [
-{ id: 1, text: "Database Generation", description: "Vast relational frameworks have been constructed seamlessly. Structured repositories are capturing, indexing, and preserving raw knowledge at planetary scale.", position: { row: 0, col: 0 } },
-{ id: 2, text: "Data Mining", description: "Layered datasets are being probed with precision. Hidden associations and valuable signals are extracted from massive streams using advanced quantum models.", position: { row: 0, col: 1 } },
-{ id: 3, text: "Data Wrangling", description: "Complex inputs are being transformed into usable form. Cleaning, merging, and reshaping pipelines ensure harmonized structures for downstream intelligence.", position: { row: 0, col: 2 } },
-{ id: 4, text: "Data Modelling", description: "Predictive structures are being simulated in real-time. Algorithms translate intricate variables into representations optimized for adaptive decision systems.", position: { row: 0, col: 3 } },
-{ id: 5, text: "Machine Learning", description: "Iterative models are actively training on curated samples. Feedback-driven refinement continuously strengthens accuracy across dynamic environments.", position: { row: 1, col: 0 } },
-{ id: 6, text: "Business Intelligence", description: "Processed data streams evolve into actionable insight. Analytical layers reveal patterns that guide strategies and enable enterprise-level optimization.", position: { row: 1, col: 1 } },
-{ id: 7, text: "Orchestration", description: "Integrated components operate within coordinated cycles. Automated flows manage dependencies, ensuring synchronized execution across all operational layers.", position: { row: 1, col: 2 } },
-
+  { id: 1, text: "Database Generation", description: "Vast relational frameworks have been constructed seamlessly. Structured repositories are capturing, indexing, and preserving raw knowledge at planetary scale.", position: { row: 0, col: 0 } },
+  { id: 2, text: "Data Mining", description: "Layered datasets are being probed with precision. Hidden associations and valuable signals are extracted from massive streams using advanced quantum models.", position: { row: 0, col: 1 } },
+  { id: 3, text: "Data Wrangling", description: "Complex inputs are being transformed into usable form. Cleaning, merging, and reshaping pipelines ensure harmonized structures for downstream intelligence.", position: { row: 0, col: 2 } },
+  { id: 4, text: "Data Modelling", description: "Predictive structures are being simulated in real-time. Algorithms translate intricate variables into representations optimized for adaptive decision systems.", position: { row: 0, col: 3 } },
+  { id: 5, text: "Machine Learning", description: "Iterative models are actively training on curated samples. Feedback-driven refinement continuously strengthens accuracy across dynamic environments.", position: { row: 1, col: 0 } },
+  { id: 6, text: "Business Intelligence", description: "Processed data streams evolve into actionable insight. Analytical layers reveal patterns that guide strategies and enable enterprise-level optimization.", position: { row: 1, col: 1 } },
+  { id: 7, text: "Orchestration", description: "Integrated components operate within coordinated cycles. Automated flows manage dependencies, ensuring synchronized execution across all operational layers.", position: { row: 1, col: 2 } },
   { id: 8, text: "All Set!", description: "Ready... Steady... Go!!", position: { row: 1, col: 3 } },
 ]
 
@@ -102,47 +101,63 @@ export default function SciFiBallGrid({ onComplete }: SciFiBallGridProps) {
         <div className="absolute inset-0 backdrop-blur-md bg-black/70 z-10" />
       )}
 
-      {/* Desktop Grid */}
-      <div className="hidden md:block min-h-screen p-6">
-        <div
-          className={`grid grid-cols-4 gap-12 max-w-6xl mx-auto mt-12 transition-all duration-500 
-          ${phase === "describing" ? "blur-sm pointer-events-none" : ""}`}
-        >
-          {ballsData.map((ball, index) => (
-            <div key={ball.id} className="relative flex flex-col items-center">
-              <div className={`relative transition-all duration-500
-                ${phase === "appearing" && index <= activeBall ? "w-28 h-28" : "w-24 h-24"}
-                rounded-full flex items-center justify-center
-                ${(phase === "appearing" && index <= activeBall) || phase === "describing"
-                  ? "bg-blue-500 shadow-lg shadow-blue-500/50"
-                  : "bg-gray-600"}
-              `}>
-                {getBallContent(index)}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Mobile Vertical Layout */}
-      <div
-        className={`md:hidden min-h-screen p-4 flex flex-col items-center space-y-10 mt-8 transition-all duration-500 
-        ${phase === "describing" ? "blur-sm pointer-events-none" : ""}`}
-      >
+      {/* Desktop Grid - 8 equal boxes */}
+      <div className="hidden md:grid grid-cols-4 grid-rows-2 min-h-screen border border-blue-400">
         {ballsData.map((ball, index) => (
-          <div key={ball.id} className="relative flex flex-col items-center w-full">
-            <div className={`relative transition-all duration-500
-              ${phase === "appearing" && index <= activeBall ? "w-20 h-20" : "w-16 h-16"}
+          <div
+            key={ball.id}
+            className={`flex flex-col items-center justify-center border border-blue-400 p-4 transition-all duration-500 
+            ${phase === "describing" ? "blur-sm pointer-events-none" : ""}`}
+          >
+            <div
+              className={`relative transition-all duration-500
+              ${phase === "appearing" && index <= activeBall ? "w-28 h-28" : "w-24 h-24"}
               rounded-full flex items-center justify-center
               ${(phase === "appearing" && index <= activeBall) || phase === "describing"
                 ? "bg-blue-500 shadow-lg shadow-blue-500/50"
                 : "bg-gray-600"}
-            `}>
+            `}
+            >
               {getBallContent(index)}
             </div>
+            {/* Show text under balls in appearing phase */}
+            {phase === "appearing" && index === activeBall && showTextBox && (
+              <p className="mt-3 text-blue-300 text-sm sm:text-base font-mono text-center">{ball.text}</p>
+            )}
           </div>
         ))}
       </div>
+
+      {/* Mobile 2x4 Grid Layout */}
+<div
+  className={`md:hidden grid grid-cols-2 gap-4 p-4 min-h-screen mt-8 transition-all duration-500 
+  ${phase === "describing" ? "blur-sm pointer-events-none" : ""}`}
+>
+  {ballsData.map((ball, index) => (
+    <div
+      key={ball.id}
+      className="flex flex-col items-center justify-center border border-blue-400 rounded-lg p-4"
+    >
+      <div
+        className={`relative transition-all duration-500
+        ${phase === "appearing" && index <= activeBall ? "w-20 h-20" : "w-16 h-16"}
+        rounded-full flex items-center justify-center
+        ${(phase === "appearing" && index <= activeBall) || phase === "describing"
+          ? "bg-blue-500 shadow-lg shadow-blue-500/50"
+          : "bg-gray-600"}
+      `}
+      >
+        {getBallContent(index)}
+      </div>
+      {phase === "appearing" && index === activeBall && showTextBox && (
+        <p className="mt-2 text-blue-300 text-sm font-mono text-center">
+          {ball.text}
+        </p>
+      )}
+    </div>
+  ))}
+</div>
+
 
       {/* Focused Ball + Description Overlay */}
       {phase === "describing" && showDescription && (

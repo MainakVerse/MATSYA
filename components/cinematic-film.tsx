@@ -162,7 +162,7 @@ export default function CinematicFilm() {
           onClick={() => router.push("/")}
           className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-sky-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-sky-500 transition-all"
         >
-          Click to exit
+          Exit
         </button>
       )}
     </div>
