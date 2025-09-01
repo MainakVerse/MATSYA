@@ -126,7 +126,7 @@ const HeroSection: React.FC = () => {
                         transition-all duration-500 hover:scale-105 hover:-rotate-1 text-base sm:text-lg"
             >
               <span className="absolute inset-0 rounded-xl border-2 border-transparent animate-[neon_3s_linear_infinite]"></span>
-              <span className="relative z-10">Cinematic View</span>
+              <span className="relative z-10">Story</span>
             </a>
           </div>
         </div>
