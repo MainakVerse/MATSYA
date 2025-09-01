@@ -7,64 +7,49 @@ interface GrowingBallProps {
 }
 
 export default function GrowingBall({ onComplete }: GrowingBallProps) {
-  const [scale, setScale] = useState(0)
-  const [brightness, setBrightness] = useState(0)
-  const [isComplete, setIsComplete] = useState(false)
+  const [animate, setAnimate] = useState(false)
+  const [completed, setCompleted] = useState(false)
 
   useEffect(() => {
-    // Start the growing animation
-    const growTimer = setTimeout(() => {
-      setScale(1)
-    }, 100)
+    // Start animation
+    const start = setTimeout(() => setAnimate(true), 50)
 
-    // Increase brightness gradually
-    const brightnessTimer = setTimeout(() => {
-      setBrightness(1)
-    }, 500)
-
-    // Complete the animation and trigger callback
-    const completeTimer = setTimeout(() => {
-      setIsComplete(true)
-      setTimeout(() => {
-        onComplete()
-      }, 500)
+    // End animation after 3s
+    const finish = setTimeout(() => {
+      setCompleted(true)
+      setTimeout(onComplete, 500)
     }, 3000)
 
     return () => {
-      clearTimeout(growTimer)
-      clearTimeout(brightnessTimer)
-      clearTimeout(completeTimer)
+      clearTimeout(start)
+      clearTimeout(finish)
     }
   }, [onComplete])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
-      {/* Growing blue ball */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950 overflow-hidden">
+      {/* Growing ball */}
       <div
         className={`
           w-4 h-4 bg-blue-500 rounded-full
-          transition-all duration-[2500ms] ease-out
-          ${scale > 0 ? "scale-[100]" : "scale-0"}
-          ${brightness > 0 ? "brightness-[300%]" : "brightness-100"}
-          ${isComplete ? "opacity-0" : "opacity-100"}
+          transition-transform duration-[2500ms] ease-out
+          ${animate ? "scale-20" : "scale-0"}
+          ${completed ? "opacity-0" : "opacity-100"}
+          filter transition-[filter] duration-1500
+          ${animate ? "brightness-150" : "brightness-100"}
         `}
         style={{
-          boxShadow:
-            brightness > 0
-              ? `0 0 200px 100px rgba(59, 130, 246, ${brightness * 0.8}), 
-               0 0 400px 200px rgba(59, 130, 246, ${brightness * 0.6}),
-               0 0 800px 400px rgba(59, 130, 246, ${brightness * 0.4})`
-              : "none",
+          boxShadow: animate
+            ? `0 0 60px 30px rgba(59, 130, 246, 0.6)`
+            : "none",
         }}
       />
 
-      {/* Blue glow overlay */}
+      {/* Subtle glow overlay */}
       <div
-        className={`
-          fixed inset-0 bg-blue-500 transition-opacity duration-1000
-          ${brightness > 0 ? "opacity-30" : "opacity-0"}
-          ${isComplete ? "opacity-0" : ""}
-        `}
+        className={`fixed inset-0 bg-blue-500 transition-opacity duration-1000
+          ${animate ? "opacity-20" : "opacity-0"}
+          ${completed ? "opacity-0" : ""}`}
       />
     </div>
   )
