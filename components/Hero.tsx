@@ -120,7 +120,7 @@ const HeroSection: React.FC = () => {
             </a>
 
             <a 
-              href="#"
+              href="/cinematic"
               className="relative group px-6 py-3 sm:px-8 sm:py-4 rounded-xl backdrop-blur-md bg-white/5 
                         border border-transparent text-white font-bold min-w-[140px] sm:min-w-[160px] 
                         transition-all duration-500 hover:scale-105 hover:-rotate-1 text-base sm:text-lg"

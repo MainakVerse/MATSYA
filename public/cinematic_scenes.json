@@ -1,0 +1,70 @@
+{
+  "scenes": [
+    {
+      "id": 0,
+      "text": "Once Upon A Time",
+      "duration": 6000
+    },
+    {
+      "id": 1,
+      "text": "In the Kingdom of Data...",
+      "duration": 5000
+    },
+    {
+      "id": 2,
+      "text": "There lived a King called Insights.",
+      "duration": 5000
+    },
+    {
+      "id": 3,
+      "text": "He protected and preserved Data.",
+      "duration": 5000
+    },
+    {
+      "id": 4,
+      "text": "Until one day, there was a divine prophecy.",
+      "duration": 5000
+    },
+    {
+      "id": 5,
+      "text": "That AI will bring an apocalypse...",
+      "duration": 4000
+    },
+    {
+      "id": 6,
+      "text": "And the King must act before it's too late.",
+      "duration": 4000
+    },
+    {
+      "id": 7,
+      "text": "The King prayed to Lord of Data, to save his Kingdom.",
+      "duration": 4000
+    },
+    {
+      "id": 8,
+      "text": "Pleased by the King's devotion, the Lord of Data granted him a vision.",
+      "duration": 4000
+    },
+    {
+      "id": 9,
+      "text": "A vision of a new era, where Data Engineering will come to System as Avtar.",
+      "duration": 4000
+    },
+    {
+      "id": 10,
+      "text": "To Save from the Perils of the unknown fears regarding AI.",
+      "duration": 4000
+    },
+    {
+      "id": 11,
+      "text": "In the form of a fish, to be known as...",
+      "duration": 4000
+    },
+    {
+      "id": 12,
+      "text": "MATSYA",
+      "duration": 4000
+    }
+    
+  ]
+}
